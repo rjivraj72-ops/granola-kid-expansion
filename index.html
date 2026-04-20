@@ -75,6 +75,11 @@
        .calc-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(74,124,89,0.15); }
        .calc-reset { padding: 10px 18px; background: var(--warm); color: var(--text); border: 1px solid #ddd; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; font-family: inherit; transition: background 0.2s; }
        .calc-reset:hover { background: var(--warm-dark); }
+       .calc-export { padding: 10px 18px; background: var(--primary); color: var(--white); border: 1px solid var(--primary); border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer; font-family: inherit; transition: background 0.2s, transform 0.2s; }
+       .calc-export:hover { background: var(--primary-dark); transform: translateY(-1px); }
+       .pricing-export-wrap { display: flex; justify-content: flex-end; margin-bottom: 14px; }
+       .pricing-export { padding: 10px 18px; background: var(--primary); color: var(--white); border: 1px solid var(--primary); border-radius: 8px; font-size: 0.85rem; font-weight: 700; cursor: pointer; font-family: inherit; transition: background 0.2s, transform 0.2s; }
+       .pricing-export:hover { background: var(--primary-dark); transform: translateY(-1px); }
        .calc-table-wrap { width: 100%; }
        .calc-table { width: 100%; border-collapse: collapse; }
        .calc-table th { text-align: left; padding: 12px 10px; font-size: 0.72rem; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid var(--primary); }
@@ -163,7 +168,7 @@
            .hero .badge { font-size: 0.72rem; padding: 5px 14px; }
            .hero .hero-logo { max-width: 240px; margin-bottom: 18px; }
            .hero-nav { gap: 6px; margin: 4px auto 22px; }
-           .hero-nav a { font-size: 0.78rem; padding: 6px 12px; }
+           .hero-nav a { font-size: 0.78rem; padding: 6px 14px; }
            .hero-stats { gap: 16px 28px; }
            .hero-stat .number { font-size: 1.5rem; }
            .hero-stat .label { font-size: 0.72rem; }
@@ -188,7 +193,7 @@
            .calc-control { width: 100%; }
            .calc-control label { font-size: 0.7rem; }
            .calc-input { width: 100%; max-width: 180px; }
-           .calc-reset { width: 100%; max-width: 260px; }
+           .calc-reset, .calc-export { width: 100%; max-width: 320px; }
            .calc-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -16px; padding: 0 16px; }
            .calc-table { font-size: 0.78rem; min-width: 560px; }
            .calc-table th, .calc-table td { padding: 8px 6px; }
@@ -198,6 +203,8 @@
            .calc-summary-item { padding: 14px 10px; }
            .calc-summary-item .value { font-size: 1.1rem; }
 
+           .pricing-export-wrap { justify-content: center; }
+           .pricing-export { width: 100%; max-width: 320px; }
            .pricing-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -18px; padding: 0 18px; }
            .pricing-table { min-width: 620px; font-size: 0.85rem; border-radius: 0; }
            .pricing-table th, .pricing-table td { padding: 10px 12px; }
@@ -315,6 +322,9 @@
                    <div class="calc-control">
                        <button type="button" id="calcReset" class="calc-reset">Reset to Default Mix</button>
                    </div>
+                   <div class="calc-control">
+                       <button type="button" id="calcExport" class="calc-export">⬇ Export Projection (CSV)</button>
+                   </div>
                </div>
 
                <div class="calc-table-wrap">
@@ -369,6 +379,10 @@
        <div class="section-label">Business Model</div>
        <div class="section-title">Strategic Pricing for Sustainable Growth</div>
        <div class="section-subtitle">Tiered pricing effective April 1, 2026. Designed to deliver healthy margins for both The Granola Kid and our retail partners.</div>
+
+       <div class="pricing-export-wrap">
+           <button type="button" id="pricingExport" class="pricing-export">⬇ Export Pricing Table (CSV)</button>
+       </div>
 
        <div class="pricing-table-wrap">
        <table class="pricing-table">
@@ -684,6 +698,72 @@
                input.value = PRODUCTS[idx].defaultUnits;
            });
            recalc();
+       });
+
+       function downloadCSV(filename, rows) {
+           var csv = rows.map(function (r) {
+               return r.map(function (cell) {
+                   var s = String(cell == null ? '' : cell);
+                   if (/[",\n]/.test(s)) s = '"' + s.replace(/"/g, '""') + '"';
+                   return s;
+               }).join(',');
+           }).join('\n');
+           var blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+           var url = URL.createObjectURL(blob);
+           var a = document.createElement('a');
+           a.href = url; a.download = filename;
+           document.body.appendChild(a); a.click(); document.body.removeChild(a);
+           URL.revokeObjectURL(url);
+       }
+
+       document.getElementById('calcExport').addEventListener('click', function () {
+           var stores = Math.max(0, parseFloat(storesInput.value) || 0);
+           var now = new Date();
+           var stamp = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+
+           var rows = [];
+           rows.push(['The Granola Kid — Buyer Projection']);
+           rows.push(['Generated', now.toLocaleString()]);
+           rows.push(['Number of Stores', stores]);
+           rows.push([]);
+           rows.push(['Product', 'Tier', 'MSRP', 'Wholesale', 'Units/Store/Month',
+               'Monthly Units (all stores)', 'Monthly Retail', 'Annual Units', 'Annual Retail', 'Annual Wholesale Cost', 'Annual Retailer Margin']);
+
+           var totMU = 0, totAU = 0, totMR = 0, totAR = 0, totAW = 0, totAM = 0;
+           unitsInputs.forEach(function (input) {
+               var idx = parseInt(input.dataset.idx, 10);
+               var p = PRODUCTS[idx];
+               var upm = Math.max(0, parseFloat(input.value) || 0);
+               var mu = upm * stores;
+               var au = mu * 12;
+               var mr = mu * p.msrp;
+               var ar = au * p.msrp;
+               var aw = au * p.wholesale;
+               var am = ar - aw;
+               totMU += mu; totAU += au; totMR += mr; totAR += ar; totAW += aw; totAM += am;
+               rows.push([p.name, p.tierLabel, p.msrp.toFixed(2), p.wholesale.toFixed(2), upm,
+                   mu, mr.toFixed(2), au, ar.toFixed(2), aw.toFixed(2), am.toFixed(2)]);
+           });
+           rows.push(['TOTALS', '', '', '', '', totMU, totMR.toFixed(2), totAU, totAR.toFixed(2), totAW.toFixed(2), totAM.toFixed(2)]);
+
+           downloadCSV('granola-kid-projection-' + stamp + '.csv', rows);
+       });
+
+       document.getElementById('pricingExport').addEventListener('click', function () {
+           var rows = [];
+           rows.push(['The Granola Kid — Pricing Table']);
+           rows.push(['Effective', 'April 1, 2026']);
+           rows.push([]);
+           rows.push(['Product', 'Tier', 'Wholesale / Case (12)', 'Per Unit Wholesale', 'Suggested MSRP', 'Retailer Spread']);
+           rows.push(['Naked', 'Core', 104.40, 8.70, 12.45, 3.75]);
+           rows.push(['Go Nuts', 'Premium', 111.60, 9.30, 13.29, 3.99]);
+           rows.push(['Coco-Yummy', 'Premium', 111.60, 9.30, 13.29, 3.99]);
+           rows.push(['Cran-Cinny Bliss', 'Premium', 111.60, 9.30, 13.29, 3.99]);
+           rows.push(['Dark & Dreamy', 'Ultra-Premium', 125.88, 10.49, 14.99, 4.50]);
+
+           var now = new Date();
+           var stamp = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+           downloadCSV('granola-kid-pricing-' + stamp + '.csv', rows);
        });
 
        recalc();
