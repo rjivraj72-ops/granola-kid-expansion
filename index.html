@@ -43,7 +43,9 @@
        .card { background: var(--white); border-radius: 16px; padding: 32px; box-shadow: var(--shadow); transition: box-shadow 0.3s, transform 0.3s; }
        .card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
        .products-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 16px; }
-       .product-card { text-align: center; padding: 28px 16px; position: relative; }
+       .product-card { text-align: center; padding: 28px 16px; position: relative; text-decoration: none; color: inherit; display: block; }
+       .product-card::after { content: '↗ View on thegranolakid.com'; display: block; margin-top: 12px; font-size: 0.72rem; color: var(--primary-light); font-weight: 600; opacity: 0; transition: opacity 0.25s; }
+       .product-card:hover::after { opacity: 1; }
        .product-icon { width: 64px; height: 64px; border-radius: 50%; background: var(--warm); display: flex; align-items: center; justify-content: center; margin: 0 auto 14px; font-size: 1.8rem; }
        .product-card h3 { font-size: 0.95rem; color: var(--primary-dark); margin-bottom: 4px; }
        .product-card .price { font-size: 1.2rem; font-weight: 800; color: var(--primary); margin: 6px 0 2px; }
@@ -188,6 +190,7 @@
            .products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
            .product-card { padding: 20px 10px; }
            .product-icon { width: 52px; height: 52px; font-size: 1.4rem; margin-bottom: 10px; }
+           .product-card::after { opacity: 1; }
 
            .charts-grid { grid-template-columns: 1fr; gap: 16px; }
            .chart-container { height: 240px; }
@@ -272,14 +275,14 @@
        <div class="section-label">Product Lineup</div>
        <div class="section-title">Artisanal Quality, Clean Ingredients</div>
        <div class="gf-badge">✅ 100% Gluten-Free — All Products</div>
-       <div class="section-subtitle">Five unique flavours across three strategic pricing tiers. All products crafted with clean, wholesome ingredients that health-conscious consumers love.</div>
+       <div class="section-subtitle">Five unique flavours across three strategic pricing tiers. Click any product to view it on thegranolakid.com.</div>
 
        <div class="products-grid">
-           <div class="card product-card"><div class="product-icon">🌾</div><h3>Naked</h3><div class="price">$12.45</div><div class="price-note">Suggested MSRP</div><div class="wholesale-note">$104.40 / case of 12</div><span class="tier-badge tier-core">Core</span></div>
-           <div class="card product-card"><div class="product-icon">🥜</div><h3>Go Nuts</h3><div class="price">$13.29</div><div class="price-note">Suggested MSRP</div><div class="wholesale-note">$111.60 / case of 12</div><span class="tier-badge tier-premium">Premium</span></div>
-           <div class="card product-card"><div class="product-icon">🥥</div><h3>Coco-Yummy</h3><div class="price">$13.29</div><div class="price-note">Suggested MSRP</div><div class="wholesale-note">$111.60 / case of 12</div><span class="tier-badge tier-premium">Premium</span></div>
-           <div class="card product-card"><div class="product-icon">🍒</div><h3>Cran-Cinny Bliss</h3><div class="price">$13.29</div><div class="price-note">Suggested MSRP</div><div class="wholesale-note">$111.60 / case of 12</div><span class="tier-badge tier-premium">Premium</span></div>
-           <div class="card product-card"><div class="product-icon">🍫</div><h3>Dark & Dreamy</h3><div class="price">$14.99</div><div class="price-note">Suggested MSRP</div><div class="wholesale-note">$125.88 / case of 12</div><span class="tier-badge tier-ultra">Ultra-Premium</span></div>
+           <a class="card product-card" href="https://www.thegranolakid.com/products/naked-granola" target="_blank" rel="noopener"><div class="product-icon">🌾</div><h3>Naked</h3><div class="price">$12.45</div><div class="price-note">Suggested MSRP</div><div class="wholesale-note">$104.40 / case of 12</div><span class="tier-badge tier-core">Core</span></a>
+           <a class="card product-card" href="https://www.thegranolakid.com/products/go-nuts-granola" target="_blank" rel="noopener"><div class="product-icon">🥜</div><h3>Go Nuts</h3><div class="price">$13.29</div><div class="price-note">Suggested MSRP</div><div class="wholesale-note">$111.60 / case of 12</div><span class="tier-badge tier-premium">Premium</span></a>
+           <a class="card product-card" href="https://www.thegranolakid.com/products/coco-yummy-granola" target="_blank" rel="noopener"><div class="product-icon">🥥</div><h3>Coco-Yummy</h3><div class="price">$13.29</div><div class="price-note">Suggested MSRP</div><div class="wholesale-note">$111.60 / case of 12</div><span class="tier-badge tier-premium">Premium</span></a>
+           <a class="card product-card" href="https://www.thegranolakid.com/products/cranberry-almond-sunflower-pumpkin-seed-granola-cran-cinny-bliss" target="_blank" rel="noopener"><div class="product-icon">🍒</div><h3>Cran-Cinny Bliss</h3><div class="price">$13.29</div><div class="price-note">Suggested MSRP</div><div class="wholesale-note">$111.60 / case of 12</div><span class="tier-badge tier-premium">Premium</span></a>
+           <a class="card product-card" href="https://www.thegranolakid.com/products/the-granola-kid-dark-dreamy" target="_blank" rel="noopener"><div class="product-icon">🍫</div><h3>Dark & Dreamy</h3><div class="price">$14.99</div><div class="price-note">Suggested MSRP</div><div class="wholesale-note">$125.88 / case of 12</div><span class="tier-badge tier-ultra">Ultra-Premium</span></a>
        </div>
    </div>
 </section>
@@ -754,7 +757,7 @@
        }
 
        document.getElementById('calcExport').addEventListener('click', function () {
-           var stores = Math.max(0, parseFloat(storesInput.value) || 0);
+           var stores = Math.max(0, parseFloat(storesInput. value) || 0);
            var now = new Date();
            var stamp = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
 
