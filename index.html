@@ -79,6 +79,7 @@
        .calc-input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(74,124,89,0.15); }
        .calc-reset { padding: 10px 18px; background: var(--warm); color: var(--text); border: 1px solid #ddd; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; font-family: inherit; transition: background 0.2s; }
        .calc-reset:hover { background: var(--warm-dark); }
+       .calc-table-wrap { width: 100%; }
        .calc-table { width: 100%; border-collapse: collapse; }
        .calc-table th { text-align: left; padding: 12px 10px; font-size: 0.72rem; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; border-bottom: 2px solid var(--primary); }
        .calc-table th.num, .calc-table td.num { text-align: right; }
@@ -108,6 +109,7 @@
        .diff-card .icon { font-size: 1.6rem; margin-bottom: 10px; }
        .diff-card h3 { font-size: 0.95rem; font-weight: 700; color: var(--primary-dark); margin-bottom: 6px; }
        .diff-card p { font-size: 0.88rem; color: var(--text-light); line-height: 1.6; }
+       .pricing-table-wrap { width: 100%; }
        .pricing-table { width: 100%; border-collapse: separate; border-spacing: 0; overflow: hidden; border-radius: 12px; background: var(--white); box-shadow: var(--shadow); }
        .pricing-table thead { background: var(--primary); color: var(--white); }
        .pricing-table th { padding: 14px 18px; text-align: left; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
@@ -147,27 +149,85 @@
        .cta-links a:hover { opacity: 1; text-decoration: underline; }
        footer { text-align: center; padding: 28px; font-size: 0.82rem; color: var(--text-light); }
        footer .hashtag { color: var(--accent); font-weight: 600; }
+
        @media (max-width: 900px) {
            .products-grid { grid-template-columns: repeat(3, 1fr); }
            .team-grid { grid-template-columns: repeat(2, 1fr); }
            .opportunity-grid { grid-template-columns: repeat(2, 1fr); }
            .calc-summary { grid-template-columns: repeat(2, 1fr); }
        }
+
        @media (max-width: 768px) {
-           .hero h1 { font-size: 1.9rem; }
-           .hero-stats { gap: 24px; }
-           .hero .hero-logo { max-width: 280px; }
-           .charts-grid { grid-template-columns: 1fr; }
-           .retailers-section { grid-template-columns: 1fr; }
-           .roadmap { grid-template-columns: 1fr; gap: 24px; }
-           .roadmap::before { display: none; }
-           .growth-banner { grid-template-columns: 1fr; gap: 16px; }
-           .products-grid { grid-template-columns: repeat(2, 1fr); }
-           .team-grid { grid-template-columns: repeat(2, 1fr); }
-           .calc-controls { gap: 12px; }
-           .calc-table { font-size: 0.82rem; }
-           .calc-table input[type="number"] { width: 64px; }
+           section { padding: 44px 18px; }
+           nav { padding: 6px 0; }
            nav .nav-links { display: none; }
+           nav .nav-inner { padding: 0 16px; }
+           nav .logo-area img { height: 36px; }
+
+           .hero { padding: 48px 18px 44px; }
+           .hero h1 { font-size: 1.65rem; }
+           .hero .tagline { font-size: 1rem; }
+           .hero p { font-size: 0.95rem; margin-bottom: 24px; }
+           .hero .badge { font-size: 0.72rem; padding: 5px 14px; }
+           .hero .hero-logo { max-width: 240px; margin-bottom: 18px; }
+           .hero-stats { gap: 16px 28px; }
+           .hero-stat .number { font-size: 1.5rem; }
+           .hero-stat .label { font-size: 0.72rem; }
+
+           .section-title { font-size: 1.5rem; }
+           .section-subtitle { font-size: 0.92rem; margin-bottom: 28px; }
+           .card { padding: 22px; border-radius: 14px; }
+
+           .products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+           .product-card { padding: 20px 10px; }
+           .product-icon { width: 52px; height: 52px; font-size: 1.4rem; margin-bottom: 10px; }
+
+           .charts-grid { grid-template-columns: 1fr; gap: 16px; }
+           .chart-container { height: 240px; }
+
+           .opportunity-grid { grid-template-columns: 1fr; gap: 14px; margin-bottom: 24px; }
+           .opp-stat-card { padding: 22px 16px; }
+           .opp-stat-card .opp-number { font-size: 1.7rem; }
+
+           .calc-card { padding: 22px 16px; }
+           .calc-controls { gap: 14px; padding-bottom: 16px; margin-bottom: 18px; }
+           .calc-control { width: 100%; }
+           .calc-control label { font-size: 0.7rem; }
+           .calc-input { width: 100%; max-width: 180px; }
+           .calc-reset { width: 100%; max-width: 260px; }
+           .calc-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -16px; padding: 0 16px; }
+           .calc-table { font-size: 0.78rem; min-width: 560px; }
+           .calc-table th, .calc-table td { padding: 8px 6px; }
+           .calc-table input[type="number"] { width: 56px; padding: 4px 6px; font-size: 0.82rem; }
+           .calc-table .tier-badge { display: none; }
+           .calc-summary { grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
+           .calc-summary-item { padding: 14px 10px; }
+           .calc-summary-item .value { font-size: 1.1rem; }
+
+           .pricing-table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -18px; padding: 0 18px; }
+           .pricing-table { min-width: 620px; font-size: 0.85rem; border-radius: 0; }
+           .pricing-table th, .pricing-table td { padding: 10px 12px; }
+
+           .retailers-section { grid-template-columns: 1fr; gap: 20px; }
+           .diff-grid { grid-template-columns: 1fr; gap: 14px; }
+
+           .roadmap { grid-template-columns: 1fr; gap: 20px; }
+           .roadmap::before { display: none; }
+           .phase-dot { margin: 8px auto 14px; }
+
+           .growth-banner { grid-template-columns: 1fr; gap: 14px; padding: 26px 20px; }
+           .growth-item .growth-number { font-size: 1.8rem; }
+
+           .team-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+           .team-card { padding: 20px 10px; }
+           .team-avatar { width: 80px; height: 80px; }
+
+           .cta { padding: 50px 18px; }
+           .cta h2 { font-size: 1.55rem; }
+           .cta .cta-tagline { font-size: 1rem; }
+           .cta p { font-size: 0.92rem; }
+           .cta-button { padding: 12px 28px; font-size: 0.92rem; }
+           .cta-links { flex-direction: column; gap: 10px; margin-top: 18px; }
        }
    </style>
 </head>
@@ -237,12 +297,12 @@
 
        <div class="growth-banner">
            <div class="growth-item"><div class="growth-number">6,734</div><div class="growth-label">Units Sold</div><div class="growth-context">Proven demand · Apr 2025–Apr 2026</div></div>
-           <div class="growth-item"><div class="growth-number">Feb 2026</div><div class="growth-label">Co-Packer Transition</div><div class="growth-context">Professional production capacity unlocked</div></div>
+                    <div class="growth-item"><div class="growth-number">Feb 2026</div><div class="growth-label">Co-Packer Transition</div><div class="growth-context">Professional production capacity unlocked</div></div>
            <div class="growth-item"><div class="growth-number">3 → 6+</div><div class="growth-label">Retail Partners</div><div class="growth-context">BC established · Alberta expanding</div></div>
        </div>
    </div>
 </section>
-<section id="opportunity">
+   <section id="opportunity">
    <div class="container">
        <div class="section-label">Market Opportunity</div>
        <div class="section-title">Why Alberta, Why Now</div>
@@ -272,6 +332,7 @@
                    </div>
                </div>
 
+               <div class="calc-table-wrap">
                <table class="calc-table" id="calcTable">
                    <thead>
                        <tr>
@@ -297,6 +358,7 @@
                        </tr>
                    </tfoot>
                </table>
+               </div>
 
                <div class="calc-summary">
                    <div class="calc-summary-item"><div class="label">Monthly Retail Revenue</div><div class="value" id="sumMonthly">—</div></div>
@@ -323,6 +385,7 @@
        <div class="section-title">Strategic Pricing for Sustainable Growth</div>
        <div class="section-subtitle">Tiered pricing effective April 1, 2026. Designed to deliver healthy margins for both The Granola Kid and our retail partners.</div>
 
+       <div class="pricing-table-wrap">
        <table class="pricing-table">
            <thead>
                <tr>
@@ -338,6 +401,7 @@
                <tr><td><strong>Dark & Dreamy</strong></td><td><span class="tier-badge tier-ultra">Ultra-Premium</span></td><td>$125.88</td><td>$10.49</td><td>$14.99</td><td><strong>$4.50</strong></td></tr>
            </tbody>
        </table>
+       </div>
    </div>
 </section>
 
@@ -427,30 +491,22 @@
 
        <div class="team-grid">
            <div class="card team-card">
-               <div class="team-avatar">
-                   <img src="team-zamaan.PNG" alt="Zamaan Jivraj" onerror="this.parentNode.textContent='ZJ'">
-               </div>
+               <div class="team-avatar"><img src="team-zamaan.PNG" alt="Zamaan Jivraj" onerror="this.parentNode.textContent='ZJ'"></div>
                <h3>Zamaan Jivraj</h3>
                <div class="role">Co-Founder & CEO</div>
            </div>
            <div class="card team-card">
-               <div class="team-avatar">
-                   <img src="team-keyaan.PNG" alt="Keyaan Jivraj" onerror="this.parentNode.textContent='KJ'">
-               </div>
+               <div class="team-avatar"><img src="team-keyaan.PNG" alt="Keyaan Jivraj" onerror="this.parentNode.textContent='KJ'"></div>
                <h3>Keyaan Jivraj</h3>
                <div class="role">Co-Founder</div>
            </div>
            <div class="card team-card">
-               <div class="team-avatar">
-                   <img src="team-shein.PNG" alt="Shein Poonja" onerror="this.parentNode.textContent='SP'">
-               </div>
+               <div class="team-avatar"><img src="team-shein.PNG" alt="Shein Poonja" onerror="this.parentNode.textContent='SP'"></div>
                <h3>Shein Poonja</h3>
                <div class="role">Chief Granola Officer</div>
            </div>
            <div class="card team-card">
-               <div class="team-avatar">
-                   <img src="team-rahim.PNG" alt="Rahim Jivraj" onerror="this.parentNode.textContent='RJ'">
-               </div>
+               <div class="team-avatar"><img src="team-rahim.PNG" alt="Rahim Jivraj" onerror="this.parentNode.textContent='RJ'"></div>
                <h3>Rahim Jivraj</h3>
                <div class="role">Chief Taste Officer</div>
            </div>
@@ -490,12 +546,7 @@
        type: 'bar',
        data: {
            labels: ['Naked', 'Go Nuts', 'Coco-Yummy', 'Cran-Cinny\nBliss', 'Dark &\nDreamy'],
-           datasets: [{
-               label: 'Wholesale / Case of 12',
-               data: [104.40, 111.60, 111.60, 111.60, 125.88],
-               backgroundColor: [coreBlue, brandAccent, brandAccent, brandAccent, ultraRed],
-               borderRadius: 8, borderSkipped: false
-           }]
+           datasets: [{ label: 'Wholesale / Case of 12', data: [104.40, 111.60, 111.60, 111.60, 125.88], backgroundColor: [coreBlue, brandAccent, brandAccent, brandAccent, ultraRed], borderRadius: 8, borderSkipped: false }]
        },
        options: {
            responsive: true, maintainAspectRatio: false,
@@ -656,3 +707,4 @@
 
 </body>
 </html>
+                                       
