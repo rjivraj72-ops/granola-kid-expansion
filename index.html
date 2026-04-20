@@ -772,4 +772,40 @@
                var p = PRODUCTS[idx];
                var upm = Math.max(0, parseFloat(input.value) || 0);
                var mu = upm * stores;
-               var au = mu
+               var au = mu * 12;
+               var mr = mu * p.msrp;
+               var ar = au * p.msrp;
+               var aw = au * p.wholesale;
+               var am = ar - aw;
+               totMU += mu; totAU += au; totMR += mr; totAR += ar; totAW += aw; totAM += am;
+               rows.push([p.name, p.tierLabel, p.msrp.toFixed(2), p.wholesale.toFixed(2), upm,
+                   mu, mr.toFixed(2), au, ar.toFixed(2), aw.toFixed(2), am.toFixed(2)]);
+           });
+           rows.push(['TOTALS', '', '', '', '', totMU, totMR.toFixed(2), totAU, totAR.toFixed(2), totAW.toFixed(2), totAM.toFixed(2)]);
+
+           downloadCSV('granola-kid-projection-' + stamp + '.csv', rows);
+       });
+
+       document.getElementById('pricingExport').addEventListener('click', function () {
+           var rows = [];
+           rows.push(['The Granola Kid — Pricing Table']);
+           rows.push(['Effective', 'April 1, 2026']);
+           rows.push([]);
+           rows.push(['Product', 'Tier', 'Wholesale / Case (12)', 'Per Unit Wholesale', 'Suggested MSRP', 'Retailer Spread']);
+           rows.push(['Naked', 'Core', 104.40, 8.70, 12.45, 3.75]);
+           rows.push(['Go Nuts', 'Premium', 111.60, 9.30, 13.29, 3.99]);
+           rows.push(['Coco-Yummy', 'Premium', 111.60, 9.30, 13.29, 3.99]);
+           rows.push(['Cran-Cinny Bliss', 'Premium', 111.60, 9.30, 13.29, 3.99]);
+           rows.push(['Dark & Dreamy', 'Ultra-Premium', 125.88, 10.49, 14.99, 4.50]);
+
+           var now = new Date();
+           var stamp = now.getFullYear() + '-' + String(now.getMonth() + 1).padStart(2, '0') + '-' + String(now.getDate()).padStart(2, '0');
+           downloadCSV('granola-kid-pricing-' + stamp + '.csv', rows);
+       });
+
+       recalc();
+   })();
+</script>
+
+</body>
+</html>
